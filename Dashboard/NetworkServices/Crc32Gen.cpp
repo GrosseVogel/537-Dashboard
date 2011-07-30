@@ -1,32 +1,28 @@
 #include "Crc32Gen.h"
 #include <cstring>
 
-Crc32Gen::Crc32Gen()
-{
-	RegenerateTable(IEEEpoly);
-}
-
-Crc32Gen::Crc32Gen(const UINT32 polynomial)
+Crc32Generator::Crc32Generator(const UINT32 polynomial)
 {
 	RegenerateTable(polynomial);
 }
 
-inline UINT32 Crc32Gen::Reflect(UINT32 ref, char ch)
+inline UINT32 Crc32Generator::Reflect(UINT32 ref, char ch)
 {
 	UINT32 value = 0;
 
 	// Swap bit 0 for bit 7 
 	// bit 1 for bit 6, etc. 
-	for(int i = 1; i < (ch + 1); i++) 
+	for(int i = 1; i < (ch + 1); ++i) 
 	{ 
 		if(ref & 1) 
-		value |= 1 << (ch - i); 
+			value |= 1 << (ch - i); 
+
 		ref >>= 1; 
 	} 
 	return value; 
 }
 
-void Crc32Gen::RegenerateTable(const UINT32 polynomial)
+void Crc32Generator::RegenerateTable(const UINT32 polynomial)
 {
 	//Reset the table first
 	memset(table, 0, sizeof(UINT32) * 256);
@@ -43,14 +39,14 @@ void Crc32Gen::RegenerateTable(const UINT32 polynomial)
 	} 
 }
 
-UINT32 Crc32Gen::GenerateChecksum(char* buff, size_t len)
+UINT32 Crc32Generator::GenerateChecksum(char* buff, size_t len)
 {
-	 register UINT32 oldcrc32 = 0xFFFFFFFF;
+	register UINT32 crc = 0xFFFFFFFF;
 
-      for( ; len; --len, ++buff)
-      {
-            oldcrc32 = UpdateCrc(*buff, oldcrc32);
-      }
+    for( ; len; --len, ++buff)
+    {
+		crc = (table[((crc) ^ ((unsigned char)*buff)) & 0xff] ^ ((crc) >> 8));
+    }
 
-      return ~oldcrc32;
+	return ~crc;
 }
