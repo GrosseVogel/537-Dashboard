@@ -28,12 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.statusLight1 = new DashboardControls.StatusLight();
+            this.SuspendLayout();
+            // 
+            // statusLight1
+            // 
+            this.statusLight1.ForeColor = System.Drawing.Color.Red;
+            this.statusLight1.Location = new System.Drawing.Point(61, 57);
+            this.statusLight1.Name = "statusLight1";
+            this.statusLight1.Size = new System.Drawing.Size(150, 150);
+            this.statusLight1.TabIndex = 0;
+            // 
+            // frmMain
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Controls.Add(this.statusLight1);
+            this.Name = "frmMain";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private DashboardControls.StatusLight statusLight1;
     }
 }
 
