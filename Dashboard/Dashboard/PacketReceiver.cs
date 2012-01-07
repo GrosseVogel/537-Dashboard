@@ -135,13 +135,13 @@ namespace Dashboard
             }
         }
 
-        public uint GetTeamNumber()
+        public int GetTeamNumber()
         {
             if (!running)
                 throw new InvalidOperationException("You cannot get data while the receiver is not running.");
             lock (this)
             {
-                return ((uint)accessBuffer[8]) * 100 + (uint)accessBuffer[9];
+                return ((int)accessBuffer[8]) * 100 + (int)accessBuffer[9];
             }
         }
 
